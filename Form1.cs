@@ -173,15 +173,92 @@ namespace Прога
             dataSet.Relations.Add(employeeWorkplaceRelation);
 
 
-            // Заполнение данными (пример)
-            departmentTable.Rows.Add(null, "HR");
-            departmentTable.Rows.Add(null, "Finance");
-            positionTable.Rows.Add(null, "Manager");
-            positionTable.Rows.Add(null, "Developer");
-            employeeTable.Rows.Add(null, "John Doe", DateTime.Parse("1990-01-15"), "1234567890", "P123456", "123 Main St");
-            workplaceTable.Rows.Add(null, null, null, null, DateTime.Parse("2022-01-01"), null);
-            vacationTypeTable.Rows.Add(null, "Paid Vacation");
-            vacationTable.Rows.Add(null, null, null, DateTime.Parse("2022-06-01"), DateTime.Parse("2022-06-15"));
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = departmentTable.NewRow();
+                row["department_name"] = "Department " + i;
+                departmentTable.Rows.Add(row);
+            }
+
+            // Добавление записей в таблицу Position
+            string[] positions = { "Manager", "Engineer", "Analyst", "Developer", "Designer" };
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = positionTable.NewRow();
+                row["position_name"] = positions[i % positions.Length];
+                positionTable.Rows.Add(row);
+            }
+
+            // Добавление записей в таблицу Employee
+            string[] firstNames = { "John", "Mary", "David", "Linda", "Michael", "Sarah", "Robert", "Jennifer", "William", "Emily" };
+            string[] lastNames = { "Smith", "Johnson", "Brown", "Davis", "Wilson", "Clark", "Lee", "Hall", "Taylor", "Moore" };
+            Random random = new Random();
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = employeeTable.NewRow();
+                row["employee_first_name"] = firstNames[i - 1];
+                row["employee_second_name"] = lastNames[i - 1];
+                row["date_of_birth"] = DateTime.Now.AddYears(-30).AddDays(random.Next(365 * 30));
+                row["INN"] = GenerateRandomINN();
+                row["pension_certificate_number"] = "PensionCert " + i;
+                row["passport_series"] = GenerateRandomPassportSeries();
+                row["passport_number"] = GenerateRandomPassportNumber();
+                employeeTable.Rows.Add(row);
+            }
+
+            // Добавление записей в таблицу VacationType
+            string[] vacationTypes = { "Paid Vacation", "Sick Leave", "Unpaid Leave", "Maternity Leave" };
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = vacationTypeTable.NewRow();
+                row["vacation_type_name"] = vacationTypes[i % vacationTypes.Length];
+                vacationTypeTable.Rows.Add(row);
+            }
+
+            // Добавление записей в таблицу Workplace
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = workplaceTable.NewRow();
+                row["employee_id"] = i;
+                row["position_id"] = i;
+                row["department_id"] = i;
+                row["start_date"] = DateTime.Now.AddYears(-5).AddMonths(random.Next(60));
+                row["end_date"] = DateTime.Now.AddMonths(random.Next(12));
+                workplaceTable.Rows.Add(row);
+            }
+
+            // Добавление записей в таблицу Vacation
+            for (int i = 1; i <= 10; i++)
+            {
+                DataRow row = vacationTable.NewRow();
+                row["vacation_type_id"] = i % vacationTypes.Length + 1;
+                row["work_id"] = i;
+                row["start_date"] = DateTime.Now.AddMonths(random.Next(12));
+                row["end_date"] = DateTime.Now.AddMonths(random.Next(12)).AddDays(random.Next(1, 21));
+                vacationTable.Rows.Add(row);
+            }
+
+            // Генерация случайного ИНН
+            string GenerateRandomINN()
+            {
+                Random random = new Random();
+                string inn = Convert.ToString(random.Next(100000, 999999)) + Convert.ToString(random.Next(100000, 999999));
+                return inn;
+            }
+
+            // Генерация случайной серии паспорта
+            string GenerateRandomPassportSeries()
+            {
+                Random random = new Random();
+                return random.Next(1000, 9999).ToString();
+            }
+
+            // Генерация случайного номера паспорта
+            string GenerateRandomPassportNumber()
+            {
+                Random random = new Random();
+                return random.Next(100000, 999999).ToString();
+            }
             dataTables.AddRange(new List<DataTable> { departmentTable, employeeTable, positionTable, vacationTable, vacationTypeTable, workplaceTable });
             tables.SelectedIndex = 0;
 
