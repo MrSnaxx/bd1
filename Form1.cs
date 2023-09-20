@@ -5,23 +5,21 @@ namespace Прога
 {
     public partial class Form1 : Form
     {
+
+        private DataTable departmentTable = new DataTable("Department");
+        private DataTable positionTable = new DataTable("Position");
+        private DataTable employeeTable = new DataTable("Employee");
+        private DataTable vacationTypeTable = new DataTable("VacationType");
+        private DataTable workplaceTable = new DataTable("Workplace");
+        private DataTable vacationTable = new DataTable("Vacation");
+        private List<DataTable> dataTables = new List<DataTable>();
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
             // Создание DataSet
             DataSet dataSet = new DataSet();
 
-            // Создание таблиц
-            DataTable departmentTable = new DataTable("Department");
-            DataTable positionTable = new DataTable("Position");
-            DataTable employeeTable = new DataTable("Employee");
-            DataTable vacationTypeTable = new DataTable("VacationType");
-            DataTable workplaceTable = new DataTable("Workplace");
-            DataTable vacationTable = new DataTable("Vacation");
+
 
             // Добавление столбцов в таблицу Department
             departmentTable.Columns.Add("department_id", typeof(int));
@@ -184,10 +182,21 @@ namespace Прога
             workplaceTable.Rows.Add(null, null, null, null, DateTime.Parse("2022-01-01"), null);
             vacationTypeTable.Rows.Add(null, "Paid Vacation");
             vacationTable.Rows.Add(null, null, null, DateTime.Parse("2022-06-01"), DateTime.Parse("2022-06-15"));
+            dataTables.AddRange(new List<DataTable> { departmentTable, employeeTable, positionTable, vacationTable, vacationTypeTable, workplaceTable });
+            tables.SelectedIndex = 0;
 
-            // Свяжите combinedTable с DataGridView
-            dataGridView1.DataSource = employeeTable;
 
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void tables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dataGridView1.DataSource = dataTables[tables.SelectedIndex];
         }
     }
 }

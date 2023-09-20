@@ -29,23 +29,35 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            tables = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(43, 12);
+            dataGridView1.Location = new Point(12, 12);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(719, 413);
             dataGridView1.TabIndex = 0;
             // 
+            // tables
+            // 
+            tables.FormattingEnabled = true;
+            tables.Items.AddRange(new object[] { "departmentTable", "employeeTable", "positionTable", "vacationTable", "vacationTypeTable", "workplaceTable" });
+            tables.Location = new Point(772, 12);
+            tables.Name = "tables";
+            tables.Size = new Size(231, 23);
+            tables.TabIndex = 1;
+            tables.SelectedIndexChanged += tables_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1294, 650);
+            Controls.Add(tables);
             Controls.Add(dataGridView1);
             Name = "Form1";
             Text = "Form1";
@@ -57,5 +69,6 @@
         #endregion
 
         private DataGridView dataGridView1;
+        private ComboBox tables;
     }
 }
